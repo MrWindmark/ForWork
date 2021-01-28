@@ -8,6 +8,26 @@
     flex-direction: row;
     width: 100vw;
     min-height: 100vh;
+    justify-content: center;
+}
+
+.data {
+    min-width: 80vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.description {
+    min-width: 100%;
+    min-height: 100px;
+}
+
+.gen_data {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 .key_block {
@@ -21,7 +41,7 @@
 .radio_group {
     display: flex;
     flex-direction: column;
-    min-width: 20vw;
+    width: 20vw;
     min-height: 50px;
     border: 1px solid black;
     border-radius: 5px;
@@ -33,4 +53,7 @@
     display: flex;
     align-items: center;
     padding: 5px;
+}
+.select_group_block {
+    width: 20vw;
 }

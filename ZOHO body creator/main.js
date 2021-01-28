@@ -6,41 +6,91 @@
         // а) блок подключений состоит из блок radio с выбором подключений
         // б) блока checkbox для выбора сим-карт
 
-function radioCreator(target_name, id, nameType){
+function radioCreator(target_name, typeNames){
     const target = document.getElementsByClassName(target_name)[0];
     // обнуление не нужно, т.к. функция вызывается в нескольких местах
     // и пред.результаты нужно сохранять
     // target.innerHTML = '';
 
-    const divTaskType = document.createElement('div');
-    divTaskType.setAttribute('class', 'radio_group');
-    // создаём блок radio для выбора типа заявки
-    // смотрим сколько типов заявок числится в списке и тянем их ключи
-    let numOf = Object.keys(itemsRadio[id]).length;
-    let keysOf = Object.keys(itemsRadio[id]);
-    
-    // проходим по всему количеству ключей для построения блока для каждого элемента
-    for (let rStep = 0; rStep < numOf; rStep++) {
-        const taskRadItem = document.createElement('div');
-        taskRadItem.setAttribute('class', 'radio_item_block');
+    let numOfRadio = Object.keys(itemsRadio).length;
+    let keysOfRadio = Object.keys(itemsRadio);
 
-        const tTypeInput = document.createElement('input');
-        tTypeInput.setAttribute('type', 'radio');
-        tTypeInput.setAttribute('id', nameType+'_'+rStep);
-        tTypeInput.setAttribute('name', `${nameType}`);
-        tTypeInput.setAttribute('value', itemsRadio[id][keysOf[rStep]]);
-        // эта строчка для проверки работоспособности элементов и возврата их значений
-        // tTypeInput.setAttribute('OnClick', `getRadioValue('${nameType}');`);
+    for(let radioBlockStep = 0; radioBlockStep < numOfRadio; radioBlockStep++){
+        const divTaskType = document.createElement('div');
+        divTaskType.setAttribute('class', 'radio_group');
+        // создаём блок radio для выбора типа заявки
+        // смотрим сколько типов заявок числится в списке и тянем их ключи
+        let numOf = Object.keys(itemsRadio[keysOfRadio[radioBlockStep]]).length;
+        let keysOf = Object.keys(itemsRadio[keysOfRadio[radioBlockStep]]);
+        
+        // проходим по всему количеству ключей для построения блока для каждого элемента
+        for (let rStep = 0; rStep < numOf; rStep++) {
+            const taskRadItem = document.createElement('div');
+            taskRadItem.setAttribute('class', 'radio_item_block');
 
-        const taskLabel = document.createElement('label');
-        taskLabel.setAttribute('for', nameType+'_'+rStep);
-        taskLabel.innerHTML = '&nbsp; ' + itemsRadio[id][keysOf[rStep]];
+            const tTypeInput = document.createElement('input');
+            tTypeInput.setAttribute('type', 'radio');
+            tTypeInput.setAttribute('id', typeNames[radioBlockStep]+'_'+rStep);
+            tTypeInput.setAttribute('name', `${typeNames[radioBlockStep]}`);
+            tTypeInput.setAttribute('value', itemsRadio[keysOfRadio[radioBlockStep]][keysOf[rStep]]);
+            // эта строчка для проверки работоспособности элементов и возврата их значений
+            // tTypeInput.setAttribute('OnClick', `getRadioValue('${nameType}');`);
 
-        taskRadItem.appendChild(tTypeInput);
-        taskRadItem.appendChild(taskLabel);
-        divTaskType.appendChild(taskRadItem);
+            const taskLabel = document.createElement('label');
+            taskLabel.setAttribute('for', typeNames[radioBlockStep]+'_'+rStep);
+            taskLabel.innerHTML = '&nbsp; ' + itemsRadio[keysOfRadio[radioBlockStep]][keysOf[rStep]];
+
+            taskRadItem.appendChild(tTypeInput);
+            taskRadItem.appendChild(taskLabel);
+            divTaskType.appendChild(taskRadItem);
+        }
+        target.appendChild(divTaskType);
     }
-    target.appendChild(divTaskType);
+}
+
+function selectCreator (target_name, typeNames) {
+    const target = document.getElementsByClassName(target_name)[0];
+
+    let numOfSelect = Object.keys(itemsSelectBlock).length;
+    let keyOfSelect = Object.keys(itemsSelectBlock);
+
+    for(let selectBlockStep = 0; selectBlockStep < numOfSelect; selectBlockStep++){
+        
+        // 'net_item',
+        // 'cabels',
+        // 'term_pack',
+        // 'sim_cards',
+        let selectBlockName = document.createElement('div');
+        if (typeNames[selectBlockStep] == 'net_item') {
+            selectBlockName.innerHTML = 'Сетевые устройства';
+        } else if (typeNames[selectBlockStep] == 'cabels') {
+            selectBlockName.innerHTML = 'Кабели';
+        } else if (typeNames[selectBlockStep] == 'term_pack') {
+            selectBlockName.innerHTML = 'Комплектация терминала';
+        } else if (typeNames[selectBlockStep] == 'sim_cards') {
+            selectBlockName.innerHTML = 'SIM/SAM карты';
+        }
+        target.appendChild(selectBlockName);
+
+        const selectBlock = document.createElement('select');
+        selectBlock.setAttribute('class', 'select_group_block');
+        selectBlock.setAttribute('name', typeNames[selectBlockStep]);
+
+        // создаём блок select для выбора типа заявки
+        // смотрим сколько типов заявок числится в списке и тянем их ключи
+        let numOfElements = Object.keys(itemsSelectBlock[keyOfSelect[selectBlockStep]]).length;
+        let keysOfElements = Object.keys(itemsSelectBlock[keyOfSelect[selectBlockStep]]);
+        
+        // проходим по всему количеству ключей для построения блока для каждого элемента
+        for (let sStep = 0; sStep < numOfElements; sStep++) {
+            // создаём элемент для внесения
+            const curItem = document.createElement('option');
+            // заполняем его тело
+            curItem.innerHTML = keysOfElements[sStep];
+            selectBlock.appendChild(curItem);
+        }
+        target.appendChild(selectBlock);
+    }
 }
 
 function inputBlockCreator() {
@@ -48,24 +98,23 @@ function inputBlockCreator() {
     const body = document.getElementsByClassName('key_block')[0];
     body.innerHTML = '';
     // 
-    radioCreator('key_block', 10, 'task_type');
-    
-    radioCreator('key_block', 11, 'term_model');
+    radioCreator('key_block', typeNamesForRadio);
+    selectCreator('key_block', typeNamesForSelect);
     // 
     // создаём элемент для записи всех CheckBox
     const chckBoxBlock = document.createElement('div');
     chckBoxBlock.setAttribute('class', 'check_blocks');
 
     // проверяем количество требующихся для построения блоков CheckBox
-    const numOfBlocks = Object.keys(itemsCheckBox).length;
-    for (let step = 0; step < numOfBlocks; step++){
+    // const numOfBlocks = Object.keys(itemsCheckBox).length;
+    // for (let step = 0; step < numOfBlocks; step++){
 
-        const currObjKey = Object.keys(itemsCheckBox)[step];
-        const currObjLen = currObjKey.length;
-        for (let substep = 0; substep < currObjLen; substep++){
+    //     const currObjKey = Object.keys(itemsCheckBox)[step];
+    //     const currObjLen = currObjKey.length;
+    //     for (let substep = 0; substep < currObjLen; substep++){
 
-        }
-    }
+    //     }
+    // }
     // pass
 }
 
@@ -78,13 +127,16 @@ function generate(){
     // pass
 }
 
-const termItems = {
+const termPacks = {
+    '': 'Отправка не требуется',
     'Терм.комплект': 'Терминал, БП терминала и MagicBox либо SAM-карта',
     'Терминал': 'Терминал + MagicBox/SAM',
     'БП терминала': 'Блок питания + Кабель с вилкой',
 }
 
+
 const itemsNetwork = {
+    '': 'Отправка не требуется',
     'Модемный комплект': 'Модем ComWL, Антенна, БП модема, набор SIM',
     'Роутерный комплект': 'Роутер, БП роутера, Антенна с переходником, набор SIM',
     'Модем': 'ComWL + набор SIM',
@@ -96,6 +148,7 @@ const itemsNetwork = {
 }
 
 const cabels = {
+    '': 'Отправка не требуется',
     'Патч-корд (ETH)': 'Кабель для подключения к роутеру. Стандартная длина 1,5 метра',
     'Пин-кабель ICT (COM)': 'Кабель для подключения терминала через СОМ-порт к ComWL',
     'Пин-кабель VX520 (COM)': 'Кабель для подключения терминала через СОМ-порт к ComWL',
@@ -105,11 +158,14 @@ const cabels = {
     'Unipos (USB)': 'Обычный USB кабель для соединения устройств, требуется наличия установленных драйверов на ПК',
 }
 
-const itemsCheckBox = {
-    10: termItems,
-    11: itemsNetwork,
-    12: cabels,
-}
+ const cards = {
+    '': 'Отправка не требуется',
+    'SAM': 'Модуль хранения ключей шифрования ПО. Без него не будут осуществляться транзакции',
+    'SIM Мегафон': 'SIM-карта для обеспечения связи',
+    'SIM МТС': 'SIM-карта для обеспечения связи',
+    'SIM Билайн': 'SIM-карта для обеспечения связи',
+    'SIM Теле2': 'SIM-карта для обеспечения связи',
+ }
 
 const mobileOperators = {
     00: '',
@@ -129,9 +185,26 @@ const taskType = {
     11: 'Возврат',
 }
 
+const itemsSelectBlock = {
+    10: itemsNetwork,
+    11: cabels,
+    12: termPacks,
+    13: cards,
+}
+const typeNamesForSelect = [
+    'net_item',
+    'cabels',
+    'term_pack',
+    'sim_cards',
+]
+
 const itemsRadio = {
     10: taskType,
     11: termModels,
 }
+const typeNamesForRadio = [
+    'task_type',
+    'term_model',
+]
 
 inputBlockCreator();
