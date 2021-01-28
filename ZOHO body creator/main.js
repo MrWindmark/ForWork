@@ -186,15 +186,15 @@ const taskType = {
 }
 
 const itemsSelectBlock = {
-    10: itemsNetwork,
-    11: cabels,
-    12: termPacks,
+    10: termPacks,
+    11: itemsNetwork,
+    12: cabels,
     13: cards,
 }
 const typeNamesForSelect = [
+    'term_pack',
     'net_item',
     'cabels',
-    'term_pack',
     'sim_cards',
 ]
 
