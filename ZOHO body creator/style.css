@@ -92,10 +92,11 @@
 .check_pair {
     display: flex;
     align-items: center;
-    width: 47%;
+    width: 30%;
     border-radius: 10px;
     margin: 3px 5px;
-    padding-left: 5%;
+    padding: 5px 0;
+    padding-left: 3%;
 }
 
 .check_list {
