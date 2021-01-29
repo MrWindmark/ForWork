@@ -49,11 +49,17 @@
     margin: 2px 0;
     box-sizing: border-box;
 }
+
+.radio_group p{
+    align-self: center;
+}
+
 .radio_item_block {
     display: flex;
     align-items: center;
     padding: 5px;
 }
+
 .select_group_block {
     width: 20vw;
 }

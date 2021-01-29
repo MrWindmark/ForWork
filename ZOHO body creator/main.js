@@ -23,6 +23,15 @@ function radioCreator(target_name, typeNames){
         let numOf = Object.keys(itemsRadio[keysOfRadio[radioBlockStep]]).length;
         let keysOf = Object.keys(itemsRadio[keysOfRadio[radioBlockStep]]);
         
+        const itemName = document.createElement('p');
+        if (typeNames[radioBlockStep] == 'task_type') {
+            itemName.innerHTML = 'Тип отправки';
+            divTaskType.appendChild(itemName);
+        } else if (typeNames[radioBlockStep] == 'term_model') {
+            itemName.innerHTML = 'Модель терминала';
+            divTaskType.appendChild(itemName);
+        }
+
         // проходим по всему количеству ключей для построения блока для каждого элемента
         for (let rStep = 0; rStep < numOf; rStep++) {
             const taskRadItem = document.createElement('div');
@@ -128,7 +137,7 @@ function generate(){
 }
 
 const termPacks = {
-    '': 'Отправка не требуется',
+    'Не требуется': 'Отправка не требуется',
     'Терм.комплект': 'Терминал, БП терминала и MagicBox либо SAM-карта',
     'Терминал': 'Терминал + MagicBox/SAM',
     'БП терминала': 'Блок питания + Кабель с вилкой',
@@ -136,7 +145,7 @@ const termPacks = {
 
 
 const itemsNetwork = {
-    '': 'Отправка не требуется',
+    'Не требуется': 'Отправка не требуется',
     'Модемный комплект': 'Модем ComWL, Антенна, БП модема, набор SIM',
     'Роутерный комплект': 'Роутер, БП роутера, Антенна с переходником, набор SIM',
     'Модем': 'ComWL + набор SIM',
@@ -148,7 +157,7 @@ const itemsNetwork = {
 }
 
 const cabels = {
-    '': 'Отправка не требуется',
+    'Не требуется': 'Отправка не требуется',
     'Патч-корд (ETH)': 'Кабель для подключения к роутеру. Стандартная длина 1,5 метра',
     'Пин-кабель ICT (COM)': 'Кабель для подключения терминала через СОМ-порт к ComWL',
     'Пин-кабель VX520 (COM)': 'Кабель для подключения терминала через СОМ-порт к ComWL',
@@ -159,7 +168,7 @@ const cabels = {
 }
 
  const cards = {
-    '': 'Отправка не требуется',
+    'Не требуется': 'Отправка не требуется',
     'SAM': 'Модуль хранения ключей шифрования ПО. Без него не будут осуществляться транзакции',
     'SIM Мегафон': 'SIM-карта для обеспечения связи',
     'SIM МТС': 'SIM-карта для обеспечения связи',
