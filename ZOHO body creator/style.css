@@ -11,16 +11,21 @@
     justify-content: center;
 }
 
+.select_block, .radio_group, .check_pair{
+    border: 1px solid lightgray;
+    box-sizing: border-box;
+}
+
 .data {
     min-width: 80vw;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    align-items: center;
 }
 
 .description {
-    min-width: 100%;
+    width: 80%;
     min-height: 100px;
 }
 
@@ -28,10 +33,22 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    min-width: 100vw;
 }
 
 .key_block {
     padding: 5%;
+    width: 30vw;
+}
+
+.buttons_block {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+
+.button {
+    width: 40%;
 }
 
 .result_block {
@@ -41,17 +58,11 @@
 .radio_group {
     display: flex;
     flex-direction: column;
-    width: 20vw;
-    min-height: 50px;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 2px 0;
-    margin: 2px 0;
-    box-sizing: border-box;
 }
 
 .radio_group p{
     align-self: center;
+    padding-bottom: 5px;
 }
 
 .radio_item_block {
@@ -60,6 +71,35 @@
     padding: 5px;
 }
 
-.select_group_block {
-    width: 20vw;
+.select_block, .radio_group {
+    width: inherit;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 2px 0;
+}
+
+.select_option_block {
+    width: 80%;
+    margin-top: 5px;
+}
+
+.check_blocks {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.check_pair {
+    display: flex;
+    align-items: center;
+    width: 47%;
+    border-radius: 10px;
+    margin: 3px 5px;
+    padding-left: 5%;
+}
+
+.check_list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
