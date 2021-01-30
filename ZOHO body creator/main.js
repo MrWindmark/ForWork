@@ -90,10 +90,14 @@ function selectCreator (target_name, typeNames) {
             selectBlockName.innerHTML = 'SIM/SAM карты';
         } else if (typeNames[selectBlockStep] == 'connect_type') {
             selectBlockName.innerHTML = 'Тип подключения';
+        } else if (typeNames[selectBlockStep] == 'unipos') {
+            selectBlockName.innerHTML = 'Unipos';
         }
+        
         // блок с нужным именем
         const targetSubBlock = document.createElement('div');
-        targetSubBlock.setAttribute('class', 'select_block');
+        targetSubBlock.setAttribute('class', `select_block`);
+        targetSubBlock.setAttribute('id', `sb_${selectBlockStep}`);
         targetSubBlock.appendChild(selectBlockName);
         // создаём блок select для выбора типа заявки
         const selectBlock = document.createElement('select');
@@ -247,6 +251,14 @@ const typeConnections = {
     'Внутр.модем (GPRS)': 'Подключение через встроенный модем терминала. Примеримо для моделей с внутренним модемом',
     'Внеш.модем (ComWL)': 'Проводное подключение терминала через COM-разъём к внешнему модему ComWL',
 }
+
+const portUnipos = {
+    'Не требуется': 'Настройка не требуется. Связь с АСУ не используется.',
+    'USB': 'Подключение терминала к АСУ через кабель USB. На АСУ (кассе) потребуется установка драйвера',
+    'COM0': 'Терминал будет обращаться к АСУ через первый COM-порт.',
+    'COM2': 'Терминал будет обращаться к АСУ через второй COM-порт. Его может не быть в некоторых моделях!',
+}
+
 // перечень используемых мобильных операторов
 const mobileOperators = {
     10: 'Мегафон',
@@ -286,14 +298,16 @@ const taskType = {
 const itemsSelectBlock = {
     10: termPacks,
     11: typeConnections,
-    12: itemsNetwork,
-    13: cabels,
-    14: cards,
+    12: portUnipos,
+    13: itemsNetwork,
+    14: cabels,
+    15: cards,
 }
 // имена для каждого пункта select group, важно сохранять позиционную связку
 const typeNamesForSelect = [
     'term_pack',
     'connect_type',
+    'unipos',
     'net_item',
     'cabels',
     'sim_cards',

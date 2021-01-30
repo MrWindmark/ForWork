@@ -9,10 +9,11 @@
     width: 100vw;
     min-height: 100vh;
     justify-content: center;
+    background-color: #434445;
 }
 
 .select_block, .radio_group, .check_pair{
-    border: 1px solid lightgray;
+    border: 1px solid #434445;
     box-sizing: border-box;
 }
 
@@ -26,7 +27,7 @@
 
 .description {
     width: 80%;
-    min-height: 100px;
+    min-height: 3vw;
 }
 
 .gen_data {
@@ -38,7 +39,9 @@
 
 .key_block {
     padding: 5%;
-    width: 30vw;
+    width: 20vw;
+    border-radius: 5px;
+    background-color: #dfdfdf;
 }
 
 .buttons_block {
@@ -92,7 +95,7 @@
 .check_pair {
     display: flex;
     align-items: center;
-    width: 30%;
+    width: 40%;
     border-radius: 10px;
     margin: 3px 5px;
     padding: 5px 0;
