@@ -79,35 +79,59 @@ function selectCreator (target_name, typeNames) {
     
     for(let selectBlockStep = 0; selectBlockStep < numOfSelect; selectBlockStep++){
         // для улучшения читабельности страницы создаём имена для блоков
+        let addBFlag = false;
         let selectBlockName = document.createElement('div');
-        if (typeNames[selectBlockStep] == 'net_item') {
+        
+        if (typeNames[selectBlockStep] == 'term_pack') {
+            selectBlockName.innerHTML = 'Комплектация терминала';
+        } else if (typeNames[selectBlockStep] == 'connect_type') {
+            selectBlockName.innerHTML = 'Тип интернет подключения';
+        } else if (typeNames[selectBlockStep] == 'unipos') {
+            selectBlockName.innerHTML = 'Unipos';
+        } else if (typeNames[selectBlockStep] == 'net_item') {
             selectBlockName.innerHTML = 'Сетевые устройства';
         } else if (typeNames[selectBlockStep] == 'cabels') {
             selectBlockName.innerHTML = 'Кабели';
-        } else if (typeNames[selectBlockStep] == 'term_pack') {
-            selectBlockName.innerHTML = 'Комплектация терминала';
+            addBFlag = true;
         } else if (typeNames[selectBlockStep] == 'sim_cards') {
             selectBlockName.innerHTML = 'SIM/SAM карты';
-        } else if (typeNames[selectBlockStep] == 'connect_type') {
-            selectBlockName.innerHTML = 'Тип подключения';
-        } else if (typeNames[selectBlockStep] == 'unipos') {
-            selectBlockName.innerHTML = 'Unipos';
-        }
+            addBFlag = true;
+        } 
         
         // блок с нужным именем
         const targetSubBlock = document.createElement('div');
         targetSubBlock.setAttribute('class', `select_block`);
-        targetSubBlock.setAttribute('id', `sb_${selectBlockStep}`);
+        targetSubBlock.setAttribute('id', typeNames[selectBlockStep]);
+        // targetSubBlock.setAttribute('id', `sb_${selectBlockStep}`);
         targetSubBlock.appendChild(selectBlockName);
         // создаём блок select для выбора типа заявки
         const selectBlock = document.createElement('select');
         selectBlock.setAttribute('class', 'select_option_block');
         selectBlock.setAttribute('name', typeNames[selectBlockStep]);
+        selectBlock.setAttribute('id', `sb_${selectBlockStep}`);
+
+        const descrButton = document.createElement('button');
+        descrButton.setAttribute('class','small_button');
+        descrButton.setAttribute('type','button');
+        descrButton.setAttribute('onclick', `getSelValDiscription('${typeNames[selectBlockStep]}', 'sb_${selectBlockStep}');`);
+        descrButton.innerHTML ='?';
 
         // смотрим сколько типов select блоков числится в списке и тянем их ключи
         let numOfElements = Object.keys(itemsSelectBlock[keyOfSelect[selectBlockStep]]).length;
         let keysOfElements = Object.keys(itemsSelectBlock[keyOfSelect[selectBlockStep]]);
         
+        if (addBFlag == true){
+            // typeNames = typeNamesForSelect
+            // addSelectBlock (targetName, id, numOfElements, keysOfElements)
+            const addButton = document.createElement('button');
+            addButton.setAttribute('class','small_button');
+            addButton.setAttribute('type','button');
+            addButton.setAttribute('id', `sbAdd${selectBlockStep}`);
+            addButton.setAttribute('onclick', `addSelectBlock('${typeNames[selectBlockStep]}', '${selectBlockStep}', 'sbAdd${selectBlockStep}');`);
+            addButton.innerHTML ='+';
+            targetSubBlock.appendChild(addButton);
+        }
+
         // проходим по всему количеству ключей для построения блока для каждого элемента
         for (let sStep = 0; sStep < numOfElements; sStep++) {
             // создаём элемент для внесения в список select
@@ -117,6 +141,7 @@ function selectCreator (target_name, typeNames) {
             selectBlock.appendChild(curItem);
         }
         targetSubBlock.appendChild(selectBlock);
+        targetSubBlock.appendChild(descrButton);
         target.appendChild(targetSubBlock);
     }
 }
@@ -164,8 +189,58 @@ function getRadioValue(name) {
     const tmp = document.querySelector('input[name='+name+']:checked').value;
     return tmp;
 }
+
+function getSelectValue(name) {
+    const tmp = document.getElementById(`${name}`).value;
+    return tmp;
+}
+
+function getSelValDiscription(name, id) {
+    let keys = Object.keys(itemsSelectBlock);
+    let searchName = typeNamesForSelect.indexOf(`${name}`, 0);
+    let curElem = itemsSelectBlock[keys[searchName]];
+    let sKey = getSelectValue(id);
+
+    let tmp = document.getElementsByClassName('description')[0];
+    tmp.innerHTML = '';
+    tmp.innerHTML = curElem[sKey];
+}
+
+function addSelectBlock (targetName, id, buttonId) {
+    let target = document.getElementById(`${targetName}`);
+
+    let keyOfSelect = Object.keys(itemsSelectBlock);
+
+    // смотрим сколько типов select блоков числится в списке и тянем их ключи
+    let numOfElements = Object.keys(itemsSelectBlock[keyOfSelect[id]]).length;
+    let keysOfElements = Object.keys(itemsSelectBlock[keyOfSelect[id]]);
+
+    const selectBlock = document.createElement('select');
+    selectBlock.setAttribute('class', 'select_option_block');
+    selectBlock.setAttribute('name', targetName);
+    selectBlock.setAttribute('id', `sb_${id}_1`);
+    
+    // проходим по всему количеству ключей для построения блока для каждого элемента
+    for (let sStep = 0; sStep < numOfElements; sStep++) {
+        // создаём элемент для внесения в список select
+        const curItem = document.createElement('option');
+        // заполняем его тело
+        curItem.innerHTML = keysOfElements[sStep];
+        selectBlock.appendChild(curItem);
+    }
+    target.appendChild(selectBlock);
+    document.getElementById(`${buttonId}`).style.display = 'none';
+
+    // pass
+}
+
 // функция генерирования таблицы и темы для заявки в поле "table" тела страницы
 function generate(){
+    // для теста функций получения значений
+    let tmp = document.getElementsByClassName('description')[0];
+    // let value = getSelValDiscription('connect_type', 'sb_1');
+    // tmp.innerHTML = '';
+    // tmp.innerHTML = value;
     // pass
 }
 // функция вывода описания (значение в словарях) в поле "description" тела страницы

@@ -28,6 +28,7 @@
 .description {
     width: 80%;
     min-height: 3vw;
+    text-align: center;
 }
 
 .gen_data {
@@ -39,7 +40,7 @@
 
 .key_block {
     padding: 5%;
-    width: 20vw;
+    width: 25vw;
     border-radius: 5px;
     background-color: #dfdfdf;
 }
@@ -52,6 +53,10 @@
 
 .button {
     width: 40%;
+}
+
+.small_button {
+    margin: 2px 3px;
 }
 
 .result_block {
@@ -82,7 +87,7 @@
 }
 
 .select_option_block {
-    width: 80%;
+    width: 70%;
     margin-top: 5px;
 }
 
