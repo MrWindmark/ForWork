@@ -148,7 +148,6 @@ function selectCreator (target_name, typeNames) {
 
 function checkCreator(target_name, objMapToCreation, namesOfObj, title) {
     const target = document.getElementsByClassName(target_name)[0];
-
     // создаём элемент для записи всех CheckBox
     const chckBoxBlock = document.createElement('div');
     chckBoxBlock.setAttribute('class', 'check_blocks');
@@ -189,12 +188,12 @@ function getRadioValue(name) {
     const tmp = document.querySelector('input[name='+name+']:checked').value;
     return tmp;
 }
-
+// функция получения значения выбранного элемента select
 function getSelectValue(name) {
     const tmp = document.getElementById(`${name}`).value;
     return tmp;
 }
-
+// функция вывода описания (значение в словарях) в поле "description" тела страницы
 function getSelValDiscription(name, id) {
     let keys = Object.keys(itemsSelectBlock);
     let searchName = typeNamesForSelect.indexOf(`${name}`, 0);
@@ -230,21 +229,31 @@ function addSelectBlock (targetName, id, buttonId) {
     }
     target.appendChild(selectBlock);
     document.getElementById(`${buttonId}`).style.display = 'none';
+}
+// эта функция для кнопки сброса удаляет доп.созданные select и возвращает видимость кнопки добавления списка
+function dropToBasic() {
+    try {
+        document.getElementById('sbAdd4').style.removeProperty('display');
+        document.getElementById('sb_4_1').remove();
+    } catch {
+        console.log(`Not critical error. Can't remove object 'sb_4_1' because it's not exist.`);
+    }
+    try {
+        document.getElementById('sbAdd5').style.removeProperty('display');
+        document.getElementById('sb_5_1').remove();
+    } catch {
+        console.log(`Not critical error. Can't remove object 'sb_5_1' because it's not exist.`);
+    }
 
-    // pass
 }
 
 // функция генерирования таблицы и темы для заявки в поле "table" тела страницы
 function generate(){
     // для теста функций получения значений
-    let tmp = document.getElementsByClassName('description')[0];
+    // let tmp = document.getElementsByClassName('description')[0];
     // let value = getSelValDiscription('connect_type', 'sb_1');
     // tmp.innerHTML = '';
     // tmp.innerHTML = value;
-    // pass
-}
-// функция вывода описания (значение в словарях) в поле "description" тела страницы
-function drawDescription (){
     // pass
 }
 
@@ -272,6 +281,7 @@ function inputBlockCreator() {
     const buttonReset = document.createElement('button');
     buttonReset.setAttribute('class','button');
     buttonReset.setAttribute('type','reset');
+    buttonReset.setAttribute('onClick', 'dropToBasic();');
     buttonReset.innerHTML ='Сброс';
 
     bBlock.appendChild(buttonGenerate);
