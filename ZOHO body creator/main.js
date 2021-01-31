@@ -8,9 +8,6 @@
 
 function radioCreator(target_name, typeNames){
     const target = document.getElementsByClassName(target_name)[0];
-    // обнуление не нужно, т.к. функция вызывается в нескольких местах
-    // и пред.результаты нужно сохранять
-    // target.innerHTML = '';
 
     let numOfRadio = Object.keys(itemsRadio).length;
     let keysOfRadio = Object.keys(itemsRadio);
@@ -25,10 +22,10 @@ function radioCreator(target_name, typeNames){
         
         const itemName = document.createElement('p');
         if (typeNames[radioBlockStep] == 'task_type') {
-            itemName.innerHTML = 'Тип отправки';
+            itemName.textContent = 'Тип отправки';
             divTaskType.appendChild(itemName);
         } else if (typeNames[radioBlockStep] == 'term_model') {
-            itemName.innerHTML = 'Модель терминала';
+            itemName.textContent = 'Модель терминала';
             divTaskType.appendChild(itemName);
         }
 
@@ -61,7 +58,7 @@ function radioCreator(target_name, typeNames){
 
             const taskLabel = document.createElement('label');
             taskLabel.setAttribute('for', typeNames[radioBlockStep]+'_'+rStep);
-            taskLabel.innerHTML = '&nbsp; ' + itemsRadio[keysOfRadio[radioBlockStep]][keysOf[rStep]];
+            taskLabel.textContent = `\xA0` + itemsRadio[keysOfRadio[radioBlockStep]][keysOf[rStep]];
 
             taskRadItem.appendChild(taskTypeInput);
             taskRadItem.appendChild(taskLabel);
@@ -114,7 +111,7 @@ function selectCreator (target_name, typeNames) {
         descrButton.setAttribute('class','small_button');
         descrButton.setAttribute('type','button');
         descrButton.setAttribute('onclick', `getSelValDiscription('${typeNames[selectBlockStep]}', 'sb_${selectBlockStep}');`);
-        descrButton.innerHTML ='?';
+        descrButton.textContent ='?';
 
         // смотрим сколько типов select блоков числится в списке и тянем их ключи
         let numOfElements = Object.keys(itemsSelectBlock[keyOfSelect[selectBlockStep]]).length;
@@ -128,7 +125,7 @@ function selectCreator (target_name, typeNames) {
             addButton.setAttribute('type','button');
             addButton.setAttribute('id', `sbAdd${selectBlockStep}`);
             addButton.setAttribute('onclick', `addSelectBlock('${typeNames[selectBlockStep]}', '${selectBlockStep}', 'sbAdd${selectBlockStep}');`);
-            addButton.innerHTML ='+';
+            addButton.textContent ='+';
             targetSubBlock.appendChild(addButton);
         }
 
@@ -137,7 +134,7 @@ function selectCreator (target_name, typeNames) {
             // создаём элемент для внесения в список select
             const curItem = document.createElement('option');
             // заполняем его тело
-            curItem.innerHTML = keysOfElements[sStep];
+            curItem.textContent = keysOfElements[sStep];
             selectBlock.appendChild(curItem);
         }
         targetSubBlock.appendChild(selectBlock);
@@ -153,7 +150,7 @@ function checkCreator(target_name, objMapToCreation, namesOfObj, title) {
     chckBoxBlock.setAttribute('class', 'check_blocks');
     // создаём элемент заголовка
     const cBlockTitle = document.createElement('div');
-    cBlockTitle.innerHTML = title;
+    cBlockTitle.textContent = title;
     chckBoxBlock.appendChild(cBlockTitle);
 
     const cBoxMainBlock = document.createElement('div');
@@ -169,7 +166,7 @@ function checkCreator(target_name, objMapToCreation, namesOfObj, title) {
 
         const chckBoxLabel = document.createElement('label');
         chckBoxLabel.setAttribute('for', namesOfObj[checkBoxStep]);
-        chckBoxLabel.innerHTML = '&nbsp; ' + objMapToCreation[keyOfCbox[checkBoxStep]];
+        chckBoxLabel.textContent = '\xA0' + objMapToCreation[keyOfCbox[checkBoxStep]];
 
         const chkBoxTypeInput = document.createElement('input');
         chkBoxTypeInput.setAttribute('type', 'checkbox');
@@ -201,8 +198,9 @@ function getSelValDiscription(name, id) {
     let sKey = getSelectValue(id);
 
     let tmp = document.getElementsByClassName('description')[0];
-    tmp.innerHTML = '';
-    tmp.innerHTML = curElem[sKey];
+    let p = document.createElement('p');
+    p.textContent = curElem[sKey];
+    tmp.appendChild(p);
 }
 
 function addSelectBlock (targetName, id, buttonId) {
@@ -224,7 +222,7 @@ function addSelectBlock (targetName, id, buttonId) {
         // создаём элемент для внесения в список select
         const curItem = document.createElement('option');
         // заполняем его тело
-        curItem.innerHTML = keysOfElements[sStep];
+        curItem.textContent = keysOfElements[sStep];
         selectBlock.appendChild(curItem);
     }
     target.appendChild(selectBlock);
@@ -232,6 +230,8 @@ function addSelectBlock (targetName, id, buttonId) {
 }
 // эта функция для кнопки сброса удаляет доп.созданные select и возвращает видимость кнопки добавления списка
 function dropToBasic() {
+    document.getElementsByClassName("description")[0].innerHTML = '';
+    
     try {
         document.getElementById('sbAdd4').style.removeProperty('display');
         document.getElementById('sb_4_1').remove();
@@ -244,7 +244,6 @@ function dropToBasic() {
     } catch {
         console.log(`Not critical error. Can't remove object 'sb_5_1' because it's not exist.`);
     }
-
 }
 
 // функция генерирования таблицы и темы для заявки в поле "table" тела страницы
@@ -277,12 +276,12 @@ function inputBlockCreator() {
     buttonGenerate.setAttribute('onclick', 'generate(); return false;');
     buttonGenerate.setAttribute('class','button');
     buttonGenerate.setAttribute('type','button');
-    buttonGenerate.innerHTML = 'Генерация';
+    buttonGenerate.textContent = 'Генерация';
     const buttonReset = document.createElement('button');
     buttonReset.setAttribute('class','button');
     buttonReset.setAttribute('type','reset');
     buttonReset.setAttribute('onClick', 'dropToBasic();');
-    buttonReset.innerHTML ='Сброс';
+    buttonReset.textContent ='Сброс';
 
     bBlock.appendChild(buttonGenerate);
     bBlock.appendChild(buttonReset);
