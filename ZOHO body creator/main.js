@@ -200,6 +200,7 @@ function getSelValDiscription(name, id) {
     let tmp = document.getElementsByClassName('description')[0];
     let p = document.createElement('p');
     p.textContent = curElem[sKey];
+    tmp.innerHTML = '';
     tmp.appendChild(p);
 }
 
