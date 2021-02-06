@@ -330,6 +330,7 @@ function rDataFormCreator(target_name) {
     nTO.type = 'text';
     nTO.id = 'recvr_company';
     nTO.placeholder = '7777';
+    nTO.required = true;
 
     const lnTO = document.createElement('label');
     lnTO.setAttribute('for', 'recvr_company');
@@ -343,6 +344,7 @@ function rDataFormCreator(target_name) {
     company.type = 'text';
     company.id = 'recvr_company';
     company.placeholder = 'ООО Компания ИНН 1234567890';
+    company.required = true;
 
     const lCompany = document.createElement('label');
     lCompany.setAttribute('for', 'recvr_company');
@@ -356,6 +358,7 @@ function rDataFormCreator(target_name) {
     name.type = 'text';
     name.id = 'recvr_name';
     name.placeholder = 'Сотрудник/Иванов Иван Иванович';
+    name.required = true;
 
     const lName = document.createElement('label');
     lName.setAttribute('for', 'recvr_name');
@@ -370,6 +373,7 @@ function rDataFormCreator(target_name) {
     phNumber.type = 'tel';
     phNumber.id = 'recvr_phone';
     phNumber.placeholder = '+7(495)000-0000';
+    phNumber.required = true;
 
     const lPhNumber = document.createElement('label');
     lPhNumber.setAttribute('for', 'recvr_phone');
@@ -385,6 +389,7 @@ function rDataFormCreator(target_name) {
     adr.type = 'text';
     adr.id = 'recvr_adr';
     adr.placeholder = 'Регион, Нас.пункт, Улица, Дом/Строение';
+    adr.required = true;
 
     const lAdr = document.createElement('label');
     lAdr.setAttribute('for', 'recvr_adr');
