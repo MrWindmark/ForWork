@@ -16,7 +16,18 @@
     border: 1px solid #434445;
     box-sizing: border-box;
 }
+.form_block, .reciver_data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.size_n_pos {
+    margin: 10px 0;
+}
 
+.result_block {
+    width: 40vw;
+}
 .data {
     min-width: 80vw;
     min-height: 100vh;
@@ -37,14 +48,15 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    min-width: 100vw;
+    width: 90vw;
 }
 
 .key_block {
     padding: 5%;
-    width: 25vw;
     border-radius: 5px;
     background-color: #dfdfdf;
+    border-radius: 10px;
+    border: 1px solid black;
 }
 
 .buttons_block {
@@ -59,10 +71,6 @@
 
 .small_button {
     margin: 2px 3px;
-}
-
-.result_block {
-    padding: 10%;
 }
 
 .radio_group {
@@ -116,4 +124,37 @@
 }
 * label {
     text-align: center;
+}
+.text_block {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.text_box, .text_area {
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 30px;
+    margin: 10px 0;
+    text-align: center;
+    padding: 10px;
+    resize: none;
+}
+/* . {
+    margin: 3%;
+    border: 1px solid black;
+    border-radius: 10px;
+    
+    text-align: center;
+    padding: 10px;
+} */
+.text_box::placeholder{
+    text-align: center;
+    padding: 5px;
+}
+.text_area::placeholder {
+    text-align: center;
+    padding: 5px;
+    justify-content: center;
 }

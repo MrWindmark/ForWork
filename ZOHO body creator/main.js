@@ -14,7 +14,7 @@ function radioCreator(target_name, typeNames){
 
     for(let radioBlockStep = 0; radioBlockStep < numOfRadio; radioBlockStep++){
         const divTaskType = document.createElement('div');
-        divTaskType.setAttribute('class', 'radio_group');
+        divTaskType.classList.add('radio_group');
         // создаём блок radio для выбора типа заявки
         // смотрим сколько типов заявок числится в списке и тянем их ключи
         let numOf = Object.keys(itemsRadio[keysOfRadio[radioBlockStep]]).length;
@@ -32,12 +32,12 @@ function radioCreator(target_name, typeNames){
         // проходим по всему количеству ключей для построения блока для каждого элемента
         for (let rStep = 0; rStep < numOf; rStep++) {
             const taskRadItem = document.createElement('div');
-            taskRadItem.setAttribute('class', 'radio_item_block');
+            taskRadItem.classList.add('radio_item_block');
 
             const taskTypeInput = document.createElement('input');
-            taskTypeInput.setAttribute('type', 'radio');
-            taskTypeInput.setAttribute('id', typeNames[radioBlockStep]+'_'+rStep);
-            taskTypeInput.setAttribute('name', `${typeNames[radioBlockStep]}`);
+            taskTypeInput.type = 'radio';
+            taskTypeInput.id = `${typeNames[radioBlockStep]}_${rStep}`;
+            taskTypeInput.name = `${typeNames[radioBlockStep]}`;
             /*
                 где-то на этом моменте появляется ненависть к дебилу, который писал код
                 на деле всё просто, если иметь переменные перед глазами
@@ -57,8 +57,8 @@ function radioCreator(target_name, typeNames){
             // taskTypeInput.setAttribute('OnClick', `getRadioValue('${nameType}');`);
 
             const taskLabel = document.createElement('label');
-            taskLabel.setAttribute('for', typeNames[radioBlockStep]+'_'+rStep);
-            taskLabel.textContent = `\xA0` + itemsRadio[keysOfRadio[radioBlockStep]][keysOf[rStep]];
+            taskLabel.setAttribute('for', `${typeNames[radioBlockStep]}_${rStep}`);
+            taskLabel.textContent = `\xA0${itemsRadio[keysOfRadio[radioBlockStep]][keysOf[rStep]]}`;
 
             taskRadItem.appendChild(taskTypeInput);
             taskRadItem.appendChild(taskLabel);
@@ -97,18 +97,18 @@ function selectCreator (target_name, typeNames) {
         
         // блок с нужным именем
         const targetSubBlock = document.createElement('div');
-        targetSubBlock.setAttribute('class', `select_block`);
-        targetSubBlock.setAttribute('id', typeNames[selectBlockStep]);
-        // targetSubBlock.setAttribute('id', `sb_${selectBlockStep}`);
+        targetSubBlock.classList.add(`select_block`);
+        targetSubBlock.id = typeNames[selectBlockStep];
+        // targetSubBlock.id = `sb_${selectBlockStep}`;
         targetSubBlock.appendChild(selectBlockName);
         // создаём блок select для выбора типа заявки
         const selectBlock = document.createElement('select');
-        selectBlock.setAttribute('class', 'select_option_block');
-        selectBlock.setAttribute('name', typeNames[selectBlockStep]);
-        selectBlock.setAttribute('id', `sb_${selectBlockStep}`);
+        selectBlock.classList.add('select_option_block');
+        selectBlock.name = typeNames[selectBlockStep];
+        selectBlock.id = `sb_${selectBlockStep}`;
 
         const descrButton = document.createElement('button');
-        descrButton.setAttribute('class','small_button');
+        descrButton.classList.add('small_button');
         descrButton.setAttribute('type','button');
         descrButton.setAttribute('onclick', `getSelValDiscription('${typeNames[selectBlockStep]}', 'sb_${selectBlockStep}');`);
         descrButton.textContent ='?';
@@ -121,9 +121,9 @@ function selectCreator (target_name, typeNames) {
             // typeNames = typeNamesForSelect
             // addSelectBlock (targetName, id, numOfElements, keysOfElements)
             const addButton = document.createElement('button');
-            addButton.setAttribute('class','small_button');
+            addButton.classList.add('small_button');
             addButton.setAttribute('type','button');
-            addButton.setAttribute('id', `sbAdd${selectBlockStep}`);
+            addButton.id = `sbAdd${selectBlockStep}`;
             addButton.setAttribute('onclick', `addSelectBlock('${typeNames[selectBlockStep]}', '${selectBlockStep}', 'sbAdd${selectBlockStep}');`);
             addButton.textContent ='+';
             targetSubBlock.appendChild(addButton);
@@ -143,52 +143,69 @@ function selectCreator (target_name, typeNames) {
     }
 }
 
-function checkCreator(target_name, objMapToCreation, namesOfObj, title) {
+function checkCreator(target_name, objMapToCreation, namesOfObj, blockName, title) {
+    // выбираем целевой элемент
     const target = document.getElementsByClassName(target_name)[0];
     // создаём элемент для записи всех CheckBox
     const chckBoxBlock = document.createElement('div');
-    chckBoxBlock.setAttribute('class', 'check_blocks');
+    chckBoxBlock.classList.add('check_blocks');
     // создаём элемент заголовка
     const cBlockTitle = document.createElement('div');
     cBlockTitle.textContent = title;
     chckBoxBlock.appendChild(cBlockTitle);
-
+    // создаём блок тела списка
     const cBoxMainBlock = document.createElement('div');
-    cBoxMainBlock.setAttribute('class', 'check_list');
-
+    cBoxMainBlock.classList.add('check_list');
+    // получаем количество объектов для создания и ключи к ним
     const numOfCbox = Object.keys(objMapToCreation).length;
     const keyOfCbox = Object.keys(objMapToCreation);
-
+    // проходимся по всему списку объектов
     for (let checkBoxStep = 0; checkBoxStep < numOfCbox; checkBoxStep++){
-
+        // каждому создаём div для упрощения работы со стилями
         const cBoxPair = document.createElement('div');
-        cBoxPair.setAttribute('class', 'check_pair');
-
+        cBoxPair.classList.add('check_pair');
+        // для удобства пользователя, каждому checkbox присваиваем лейбл
         const chckBoxLabel = document.createElement('label');
         chckBoxLabel.setAttribute('for', namesOfObj[checkBoxStep]);
-        chckBoxLabel.textContent = '\xA0' + objMapToCreation[keyOfCbox[checkBoxStep]];
-
+        chckBoxLabel.textContent = `\xA0${objMapToCreation[keyOfCbox[checkBoxStep]]}`;
+        // формируем элемент checkbox
         const chkBoxTypeInput = document.createElement('input');
-        chkBoxTypeInput.setAttribute('type', 'checkbox');
-        chkBoxTypeInput.setAttribute('id', namesOfObj[checkBoxStep]);
-        // chkBoxTypeInput.setAttribute('name', chkBoxTagName);
-
+        chkBoxTypeInput.type = 'checkbox';
+        chkBoxTypeInput.name = blockName;
+        chkBoxTypeInput.id = namesOfObj[checkBoxStep];
+        // записываем пару в блок тела списка
         cBoxPair.appendChild(chkBoxTypeInput);
         cBoxPair.appendChild(chckBoxLabel);
         cBoxMainBlock.appendChild(cBoxPair);
     }
+    // записываем блок тела списка в целевой блок вывода
     chckBoxBlock.appendChild(cBoxMainBlock);
     target.appendChild(chckBoxBlock);
 }
 // функция получения значения выбранного элемента radio
 function getRadioValue(name) {
-    const tmp = document.querySelector('input[name='+name+']:checked').value;
+    const tmp = document.querySelector(`input[name=${name}]:checked`).value;
     return tmp;
 }
 // функция получения значения выбранного элемента select
 function getSelectValue(name) {
     const tmp = document.getElementById(`${name}`).value;
     return tmp;
+}
+// функция получения значения выбранного элемента select
+function getChackValue(name) {
+    // обращаемся 
+    let checkboxes = document.getElementsByName(`${name}`);
+    let checkboxesChecked = [];
+    // loop over them all
+    for (var i=0; i<checkboxes.length; i++) {
+        // And stick the checked ones onto an array...
+        if (checkboxes[i].checked) {
+            checkboxesChecked.push(checkboxes[i].id);
+        }
+    }
+    // Return the array if it is non-empty, or null
+    return checkboxesChecked.length > 0 ? checkboxesChecked : null;
 }
 // функция вывода описания (значение в словарях) в поле "description" тела страницы
 function getSelValDiscription(name, id) {
@@ -214,9 +231,9 @@ function addSelectBlock (targetName, id, buttonId) {
     let keysOfElements = Object.keys(itemsSelectBlock[keyOfSelect[id]]);
 
     const selectBlock = document.createElement('select');
-    selectBlock.setAttribute('class', 'select_option_block');
-    selectBlock.setAttribute('name', targetName);
-    selectBlock.setAttribute('id', `sb_${id}_1`);
+    selectBlock.classList.add('select_option_block');
+    selectBlock.name = targetName;
+    selectBlock.id = `sb_${id}_1`;
     
     // проходим по всему количеству ключей для построения блока для каждого элемента
     for (let sStep = 0; sStep < numOfElements; sStep++) {
@@ -245,16 +262,26 @@ function dropToBasic() {
     } catch {
         console.log(`Not critical error. Can't remove object 'sb_5_1' because it's not exist.`);
     }
+
+    let text_blocks = document.getElementsByClassName('text_block');
+
+    for (let i = 0; i < text_blocks.length; i++) {
+
+    }
+
 }
 
 // функция генерирования таблицы и темы для заявки в поле "table" тела страницы
 function generate(){
     // для теста функций получения значений
-    // let tmp = document.getElementsByClassName('description')[0];
+    let tmp = document.getElementsByClassName('description')[0];
     // let value = getSelValDiscription('connect_type', 'sb_1');
     // tmp.innerHTML = '';
     // tmp.innerHTML = value;
     // pass
+    // alert(getRadioValue('task_type'));
+    // alert(getRadioValue('term_model'));
+    // alert(getChackValue('mob_oper'));
 }
 
 // Основная функция отрисовки блока ввода данных 
@@ -267,26 +294,103 @@ function inputBlockCreator() {
     // выводим блоки select
     selectCreator('key_block', typeNamesForSelect);
     // здесь нужно вывести блок checkBox
-    checkCreator('key_block', mobileOperators, mobOperNames, 'SIM для подключений');
+    checkCreator('key_block', mobileOperators, mobOperNames, 'mob_oper', 'SIM для подключений');
 
     // Создаём клавиши генерации и сброса формы
     const bBlock = document.createElement('div');
-    bBlock.setAttribute('class', 'buttons_block');
+    bBlock.classList.add('buttons_block');
 
     const buttonGenerate = document.createElement('button');
     buttonGenerate.setAttribute('onclick', 'generate(); return false;');
-    buttonGenerate.setAttribute('class','button');
-    buttonGenerate.setAttribute('type','button');
+    buttonGenerate.classList.add('button');
+    buttonGenerate.type = 'button';
     buttonGenerate.textContent = 'Генерация';
     const buttonReset = document.createElement('button');
-    buttonReset.setAttribute('class','button');
-    buttonReset.setAttribute('type','reset');
+    buttonReset.classList.add('button');
+    buttonReset.type = 'reset';
     buttonReset.setAttribute('onClick', 'dropToBasic();');
     buttonReset.textContent ='Сброс';
 
     bBlock.appendChild(buttonGenerate);
     bBlock.appendChild(buttonReset);
     body.appendChild(bBlock);
+}
+
+function rDataFormCreator(target_name) {
+    const body = document.getElementsByClassName(`${target_name}`)[0];
+
+    // название организации получателя
+    const lblock = document.createElement('div');
+    lblock.classList.add('text_block');
+    lblock.classList.add('key_block');
+
+    const company = document.createElement('input');
+    company.classList.add('text_box');
+    company.type = 'text';
+    company.id = 'recvr_company';
+    company.placeholder = 'ООО Компания ИНН 1234567890';
+
+    const lCompany = document.createElement('label');
+    lCompany.setAttribute('for', 'recvr_company');
+    lCompany.textContent = 'Название организации';
+    lblock.appendChild(lCompany);
+    lblock.appendChild(company);
+
+    // Имя получателя
+    const name = document.createElement('input');
+    name.classList.add('text_box');
+    name.type = 'text';
+    name.id = 'recvr_name';
+    name.placeholder = 'Сотрудник/Иванов Иван Иванович';
+
+    const lName = document.createElement('label');
+    lName.setAttribute('for', 'recvr_name');
+    lName.textContent = 'Имя';
+    lblock.appendChild(lName);
+    lblock.appendChild(name);
+
+    // телефон получателя
+    const phNumber = document.createElement('textarea');
+    phNumber.classList.add('text_area');
+    phNumber.rows = 2;
+    phNumber.type = 'tel';
+    phNumber.id = 'recvr_phone';
+    phNumber.placeholder = '+7(495)000-0000';
+
+    const lPhNumber = document.createElement('label');
+    lPhNumber.setAttribute('for', 'recvr_phone');
+    lPhNumber.textContent = 'Контактный номер';
+    lblock.appendChild(lPhNumber);
+    lblock.appendChild(phNumber);
+    body.appendChild(lblock);
+
+    // адрес получателя
+    const adr = document.createElement('textarea');
+    adr.classList.add('text_area');
+    adr.rows = 5;
+    adr.type = 'text';
+    adr.id = 'recvr_adr';
+    adr.placeholder = 'Регион, Нас.пункт, Улица, Дом/Строение';
+
+    const lAdr = document.createElement('label');
+    lAdr.setAttribute('for', 'recvr_adr');
+    lAdr.textContent = 'Адрес';
+    lblock.appendChild(lAdr);
+    lblock.appendChild(adr);
+
+    // примечание
+    const addInfo = document.createElement('textarea');
+    addInfo.classList.add('text_area');
+    addInfo.rows = 5;
+    addInfo.id = 'addition_data';
+    addInfo.placeholder = 'Любой дополнительный текст при необходимости';
+
+    const lAddInfo = document.createElement('label');
+    lAddInfo.setAttribute('for', 'addition_data');
+    lAddInfo.textContent = 'Примечание';
+    lblock.appendChild(lAddInfo);
+    lblock.appendChild(addInfo);
+    // pass
 }
 
 const termPacks = {
@@ -303,7 +407,7 @@ const itemsNetwork = {
     'Модем': 'ComWL + набор SIM',
     'БП модема': '',
     'Роутер': 'Роутер + набор SIM',
-    'БП роутера': '',
+    'БП роутера': 'Требуется указание в примечании о том для какого роутера (штекер)',
     'Антенна модема': 'Стандартная антенна с разъёмом подключения к ComWL',
     'Антенна роутера': 'Антенна + переходник для подключения к роутеру',
 }
@@ -360,15 +464,6 @@ const mobOperNames = [
     'tele2',
     'velcom',
 ]
-
-const itemsCheckBox = {
-    10: mobileOperators,
-}
-
-const chkBoxNames = [
-    mobOperNames,
-]
-
 // перечень используемых моделей терминалов
 const termModels = {
     10: 'Ingenico ICT250',
@@ -410,3 +505,4 @@ const typeNamesForRadio = [
 ]
 
 inputBlockCreator();
+rDataFormCreator('input_rdata');
