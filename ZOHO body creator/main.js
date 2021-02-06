@@ -319,11 +319,25 @@ function inputBlockCreator() {
 function rDataFormCreator(target_name) {
     const body = document.getElementsByClassName(`${target_name}`)[0];
 
-    // название организации получателя
+    
     const lblock = document.createElement('div');
     lblock.classList.add('text_block');
     lblock.classList.add('key_block');
+    
+    // название организации получателя
+    const nTO = document.createElement('input');
+    nTO.classList.add('text_box');
+    nTO.type = 'text';
+    nTO.id = 'recvr_company';
+    nTO.placeholder = '7777';
 
+    const lnTO = document.createElement('label');
+    lnTO.setAttribute('for', 'recvr_company');
+    lnTO.textContent = 'Номер ТО';
+    lblock.appendChild(lnTO);
+    lblock.appendChild(nTO);
+
+    // название организации получателя
     const company = document.createElement('input');
     company.classList.add('text_box');
     company.type = 'text';
