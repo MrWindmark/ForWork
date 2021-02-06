@@ -67,7 +67,6 @@ function radioCreator(target_name, typeNames){
         target.appendChild(divTaskType);
     }
 }
-
 function selectCreator (target_name, typeNames) {
     const target = document.getElementsByClassName(target_name)[0];
 
@@ -99,7 +98,6 @@ function selectCreator (target_name, typeNames) {
         const targetSubBlock = document.createElement('div');
         targetSubBlock.classList.add(`select_block`);
         targetSubBlock.id = typeNames[selectBlockStep];
-        // targetSubBlock.id = `sb_${selectBlockStep}`;
         targetSubBlock.appendChild(selectBlockName);
         // создаём блок select для выбора типа заявки
         const selectBlock = document.createElement('select');
@@ -116,7 +114,7 @@ function selectCreator (target_name, typeNames) {
         // смотрим сколько типов select блоков числится в списке и тянем их ключи
         let numOfElements = Object.keys(itemsSelectBlock[keyOfSelect[selectBlockStep]]).length;
         let keysOfElements = Object.keys(itemsSelectBlock[keyOfSelect[selectBlockStep]]);
-        
+
         if (addBFlag == true){
             // typeNames = typeNamesForSelect
             // addSelectBlock (targetName, id, numOfElements, keysOfElements)
@@ -142,7 +140,6 @@ function selectCreator (target_name, typeNames) {
         target.appendChild(targetSubBlock);
     }
 }
-
 function checkCreator(target_name, objMapToCreation, namesOfObj, blockName, title) {
     // выбираем целевой элемент
     const target = document.getElementsByClassName(target_name)[0];
@@ -167,6 +164,7 @@ function checkCreator(target_name, objMapToCreation, namesOfObj, blockName, titl
         // для удобства пользователя, каждому checkbox присваиваем лейбл
         const chckBoxLabel = document.createElement('label');
         chckBoxLabel.setAttribute('for', namesOfObj[checkBoxStep]);
+        chckBoxLabel.id = `${namesOfObj[checkBoxStep]}_l`;
         chckBoxLabel.textContent = `\xA0${objMapToCreation[keyOfCbox[checkBoxStep]]}`;
         // формируем элемент checkbox
         const chkBoxTypeInput = document.createElement('input');
@@ -184,28 +182,43 @@ function checkCreator(target_name, objMapToCreation, namesOfObj, blockName, titl
 }
 // функция получения значения выбранного элемента radio
 function getRadioValue(name) {
-    const tmp = document.querySelector(`input[name=${name}]:checked`).value;
-    return tmp;
-}
-// функция получения значения выбранного элемента select
-function getSelectValue(name) {
-    const tmp = document.getElementById(`${name}`).value;
-    return tmp;
-}
-// функция получения значения выбранного элемента select
-function getChackValue(name) {
-    // обращаемся 
-    let checkboxes = document.getElementsByName(`${name}`);
-    let checkboxesChecked = [];
-    // loop over them all
-    for (var i=0; i<checkboxes.length; i++) {
-        // And stick the checked ones onto an array...
-        if (checkboxes[i].checked) {
-            checkboxesChecked.push(checkboxes[i].id);
-        }
+    try {
+        const tmp = document.querySelector(`input[name=${name}]:checked`).value;
+        return tmp;
+    } catch {
+        console.log(`Not critical error. Can't get checked "radio" element.`);
     }
-    // Return the array if it is non-empty, or null
-    return checkboxesChecked.length > 0 ? checkboxesChecked : null;
+}
+// функция получения значения выбранного элемента select
+function getSelectValue(elemID) {
+    try {
+        const tmp = document.getElementById(`${elemID}`).value;
+        return tmp;
+    } catch {
+        console.log(`Not critical error. Can't get checked "select" element.`);
+    }
+}
+// функция получения значения выбранного элемента select
+function getCheckValue(name) {
+    try {
+        // обращаемся элементу по имени
+        let checkboxes = document.getElementsByName(`${name}`);
+        let checkboxesChecked = [];
+        // проверяем все имеющиеся элементы с заданным именем
+        for (var i=0; i<checkboxes.length; i++) {
+            // если есть выбранные - добавляем текст из их label в список к выводу
+            if (checkboxes[i].checked) {
+                let tmp_id = checkboxes[i].id;
+                let textValue = document.getElementById(`${tmp_id}_l`).innerText;
+                checkboxesChecked.push(textValue);
+            }
+        }
+        // возвращаем полученный список, если он не пустой, иначе - null
+        return checkboxesChecked.length > 0 ? checkboxesChecked : null;
+    } catch {
+        console.log(`Not critical error. Can't get checked "checkbox" element.`);
+    }
+    
 }
 // функция вывода описания (значение в словарях) в поле "description" тела страницы
 function getSelValDiscription(name, id) {
@@ -220,7 +233,6 @@ function getSelValDiscription(name, id) {
     tmp.innerHTML = '';
     tmp.appendChild(p);
 }
-
 function addSelectBlock (targetName, id, buttonId) {
     let target = document.getElementById(`${targetName}`);
 
@@ -262,28 +274,21 @@ function dropToBasic() {
     } catch {
         console.log(`Not critical error. Can't remove object 'sb_5_1' because it's not exist.`);
     }
-
-    let text_blocks = document.getElementsByClassName('text_block');
-
-    for (let i = 0; i < text_blocks.length; i++) {
-
-    }
-
 }
-
 // функция генерирования таблицы и темы для заявки в поле "table" тела страницы
 function generate(){
     // для теста функций получения значений
-    let tmp = document.getElementsByClassName('description')[0];
+    // let tmp = document.getElementsByClassName('description')[0];
     // let value = getSelValDiscription('connect_type', 'sb_1');
     // tmp.innerHTML = '';
     // tmp.innerHTML = value;
     // pass
     // alert(getRadioValue('task_type'));
+    titleGenerator();
+    tableGenerator();
     // alert(getRadioValue('term_model'));
-    // alert(getChackValue('mob_oper'));
+    // alert(getCheckValue('mob_oper'));
 }
-
 // Основная функция отрисовки блока ввода данных 
 function inputBlockCreator() {
     // получаем объект для внесения элементов и сбрасываем его предыдущее значение
@@ -315,12 +320,12 @@ function inputBlockCreator() {
     bBlock.appendChild(buttonReset);
     body.appendChild(bBlock);
 }
-
+// функция для создания поля ввода информации по отправителю/получателю
 function rDataFormCreator(target_name) {
     const body = document.getElementsByClassName(`${target_name}`)[0];
 
     
-    const lblock = document.createElement('div');
+    const lblock = document.createElement('form');
     lblock.classList.add('text_block');
     lblock.classList.add('key_block');
     
@@ -328,12 +333,12 @@ function rDataFormCreator(target_name) {
     const nTO = document.createElement('input');
     nTO.classList.add('text_box');
     nTO.type = 'text';
-    nTO.id = 'recvr_company';
+    nTO.id = 'recvr_to_num';
     nTO.placeholder = '7777';
     nTO.required = true;
 
     const lnTO = document.createElement('label');
-    lnTO.setAttribute('for', 'recvr_company');
+    lnTO.setAttribute('for', 'recvr_to_num');
     lnTO.textContent = 'Номер ТО';
     lblock.appendChild(lnTO);
     lblock.appendChild(nTO);
@@ -409,7 +414,50 @@ function rDataFormCreator(target_name) {
     lAddInfo.textContent = 'Примечание';
     lblock.appendChild(lAddInfo);
     lblock.appendChild(addInfo);
+
+    const buttonReset = document.createElement('button');
+    buttonReset.classList.add('button');
+    buttonReset.type = 'reset';
+    buttonReset.textContent ='Очистка';
+    lblock.appendChild(buttonReset);
     // pass
+}
+function getTextData (targetID) {
+    let tmp = document.getElementById(targetID).value;
+    return tmp;
+}
+// функция для создания темы заявки
+function titleGenerator() {
+    let titleBody = document.getElementsByClassName('title')[0];
+    titleBody.innerHTML = '';
+
+    let lTitle = document.createElement('label');
+    lTitle.setAttribute('for', 'p_title');
+    lTitle.textContent = 'Тема:';
+    
+    let pTitle = document.createElement('p');
+    pTitle.id = 'p_title';
+    pTitle.textContent = `${getRadioValue('task_type')} оборудования ТО ${getTextData('recvr_to_num')}`
+    // let titleText = `${getRadioValue('task_type')} оборудования ТО ${getTextData('recvr_to_num')}`;
+    // понятия не имею как это работает, если честно, просто спёр из интернета функцию
+    titleBody.onclick = function() {
+        document.execCommand("copy");
+      }
+      titleBody.addEventListener("copy", function(event) {
+        event.preventDefault();
+        if (event.clipboardData) {
+          event.clipboardData.setData("text/plain", pTitle.textContent);
+        }
+      });
+    titleBody.appendChild(lTitle);
+    titleBody.appendChild(pTitle);
+}
+// функция для создания таблицы для заявки
+function tableGenerator() {
+    let tableBody = document.getElementsByClassName('table')[0];
+    tableBody.innerHTML = '';
+    
+    let tableRowMainInfo = document.createElement('tr');
 }
 
 const termPacks = {
@@ -421,8 +469,8 @@ const termPacks = {
 
 const itemsNetwork = {
     'Не требуется': 'Отправка не требуется',
-    'Модемный комплект': 'Модем ComWL, Антенна, БП модема, набор SIM',
-    'Роутерный комплект': 'Роутер, БП роутера, Антенна с переходником, набор SIM',
+    'Модемный комплект': 'Модем ComWL, Антенна, БП модема, Пин-кабель, набор SIM',
+    'Роутерный комплект': 'Роутер, БП роутера, Антенна с переходником, Патч-корд, набор SIM',
     'Модем': 'ComWL + набор SIM',
     'БП модема': '',
     'Роутер': 'Роутер + набор SIM',
@@ -436,10 +484,10 @@ const cabels = {
     'Патч-корд (ETH)': 'Кабель для подключения к роутеру. Стандартная длина 1,5 метра',
     'Пин-кабель ICT (COM)': 'Кабель для подключения терминала через СОМ-порт к ComWL',
     'Пин-кабель VX520 (COM)': 'Кабель для подключения терминала через СОМ-порт к ComWL',
-    'MagicBox (2-ва COM)': 'Кабель-переходник для ICT 250 (EM). Имеет порты COM0, COM2 и ETH',
-    'MagicBox (RS232)': 'Кабель-переходник для ICT 250 (GEM). Имеет порты RS232 и ETH',
     'Unipos (Com)': 'Кабель для подключения терминала к кассе по DB9 разъёму',
     'Unipos (USB)': 'Обычный USB кабель для соединения устройств, требуется наличия установленных драйверов на ПК',
+    'MagicBox (2-ва COM)': 'Кабель-переходник для ICT 250 (EM). Имеет порты COM0, COM2 и ETH',
+    'MagicBox (RS232)': 'Кабель-переходник для ICT 250 (GEM). Имеет порты RS232 и ETH',
 }
 
  const cards = {
@@ -449,7 +497,7 @@ const cabels = {
     'SIM МТС': 'SIM-карта для обеспечения связи',
     'SIM Билайн': 'SIM-карта для обеспечения связи',
     'SIM Теле2': 'SIM-карта для обеспечения связи',
- }
+}
 
 const typeConnections = {
     'Не требуется': 'Отправка не требуется',
@@ -465,8 +513,8 @@ const portUnipos = {
     'USB': 'Подключение терминала к АСУ через кабель USB. На АСУ (кассе) потребуется установка драйвера',
     'COM0': 'Терминал будет обращаться к АСУ через первый COM-порт.',
     'COM2': 'Терминал будет обращаться к АСУ через второй COM-порт. Его может не быть в некоторых моделях!',
+    'Unipos 2.0': 'Соединение терминала с кассовым оборудованием через ETH-кабель.',
 }
-
 // перечень используемых мобильных операторов
 const mobileOperators = {
     10: 'Мегафон',
@@ -475,7 +523,6 @@ const mobileOperators = {
     13: 'Теле2',
     14: 'A1 (Velcom)',
 }
-
 const mobOperNames = [
     'megafon',
     'mts',
