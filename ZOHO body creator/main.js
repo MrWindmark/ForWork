@@ -472,7 +472,7 @@ function tableGenerator() {
     tableBody.innerHTML = '';
 
     let realTableBody = document.createElement('table');
-    realTableBody.setAttribute('style', 'border-width: 0px; margin:0; padding:0');
+    realTableBody.setAttribute('style', 'border-width: 0px; margin: 0; padding: 0; border-collapse: collapse;');
 
     realTableBody.setAttribute('border', '1px');
     realTableBody.setAttribute('cellpadding', '0');
