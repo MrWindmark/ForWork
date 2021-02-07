@@ -487,7 +487,7 @@ function tableGenerator() {
 
     let cellPackageName = document.createElement('td');
     cellPackageName.textContent = 'Перечень оборудования';
-    cellPackageName.setAttribute('style', 'padding: 10px 5px;');
+    cellPackageName.setAttribute('style', 'padding: 10px 5px; border-style: solid; border-color: #777; border-width: 1px;');
     tableRowMainInfo.appendChild(cellPackageName);
     // составляем список оборудования на замену
     let complect = [];
@@ -525,7 +525,7 @@ function tableGenerator() {
     }
 
     let cellPackageList = document.createElement('td');
-    cellPackageList.setAttribute('style', 'padding: 20px;');
+    cellPackageList.setAttribute('style', 'padding: 10px 5px; border-style: solid; border-color: #777; border-width: 1px;');
     let list = document.createElement('ul');
     
     for (let i=0; i < complect.length; i++) {
@@ -542,12 +542,12 @@ function tableGenerator() {
 
     let cellRecName = document.createElement('td');
     cellRecName.textContent = 'Получатель';
-    cellRecName.setAttribute('style', 'padding: 10px 5px;');
+    cellRecName.setAttribute('style', 'padding: 10px 5px; border-style: solid; border-color: #777; border-width: 1px;');
 
     tableRoWRecieverName.appendChild(cellRecName);
 
     let cellRecData = document.createElement('td');
-    cellRecData.setAttribute('style', 'padding: 20px;');
+    cellRecData.setAttribute('style', 'padding: 10px 5px; border-style: solid; border-color: #777; border-width: 1px;');
     let rData = document.createElement('ul');
     if (getTextData('recvr_company') != '') {
         let rDataCompName = document.createElement('li');
@@ -572,11 +572,11 @@ function tableGenerator() {
     tableRoWRecieverAdr.setAttribute('style', 'border-width: 0px;');
 
     let cellRecAndName = document.createElement('td');
-    cellRecAndName.setAttribute('style', 'padding: 10px 5px;');
+    cellRecAndName.setAttribute('style', 'padding: 10px 5px; border-style: solid; border-color: #777; border-width: 1px;');
     cellRecAndName.textContent = 'Адрес получателя'
 
     let cellRecAdrData = document.createElement('td');
-    cellRecAdrData.setAttribute('style', 'padding: 10px;');
+    cellRecAdrData.setAttribute('style', 'padding: 10px; border-style: solid; border-color: #777; border-width: 1px;');
     cellRecAdrData.textContent = getTextData('recvr_adr');
 
     tableRoWRecieverAdr.appendChild(cellRecAndName);
@@ -586,11 +586,11 @@ function tableGenerator() {
     tableRowModelInfo.setAttribute('style', 'border-width: 0px;');
 
     let cellModelBlockName = document.createElement('td');
-    cellModelBlockName.setAttribute('style', 'padding: 10px 5px;');
+    cellModelBlockName.setAttribute('style', 'padding: 10px 5px; border-style: solid; border-color: #777; border-width: 1px;');
     cellModelBlockName.innerText = 'Модель терминала';
 
     let cellRowModelInfo = document.createElement('td');
-    cellRowModelInfo.setAttribute('style', 'padding: 10px;');
+    cellRowModelInfo.setAttribute('style', 'padding: 10px; border-style: solid; border-color: #777; border-width: 1px;');
     if (getRadioValue('term_model')) {
         cellRowModelInfo.innerText = getRadioValue('term_model');
     }
@@ -602,11 +602,11 @@ function tableGenerator() {
     tableRowUnipos.setAttribute('style', 'border-width: 0px;');
 
     let cellUniposName = document.createElement('td');
-    cellUniposName.setAttribute('style', 'padding: 10px 5px;');
+    cellUniposName.setAttribute('style', 'padding: 10px 5px; border-style: solid; border-color: #777; border-width: 1px;');
     cellUniposName.textContent = 'Unipos';
 
     let cellUniposData = document.createElement('td');
-    cellUniposData.setAttribute('style', 'padding: 10px;');
+    cellUniposData.setAttribute('style', 'padding: 10px; border-style: solid; border-color: #777; border-width: 1px;');
     cellUniposData.textContent = getSelectValue('sb_2');
 
     tableRowUnipos.appendChild(cellUniposName);
@@ -617,11 +617,11 @@ function tableGenerator() {
     tableRowConnection.setAttribute('style', 'border-width: 0px;');
 
     let cellConnectName = document.createElement('td');
-    cellConnectName.setAttribute('style', 'padding: 10px 5px;');
+    cellConnectName.setAttribute('style', 'padding: 10px 5px; border-style: solid; border-color: #777; border-width: 1px;');
     cellConnectName.textContent = 'Подключение';
 
     let cellConnectData = document.createElement('td');
-    cellConnectData.setAttribute('style', 'padding: 10px;');
+    cellConnectData.setAttribute('style', 'padding: 10px; border-style: solid; border-color: #777; border-width: 1px;');
     cellConnectData.textContent = getSelectValue('sb_1');
 
     tableRowConnection.appendChild(cellConnectName);
@@ -632,11 +632,11 @@ function tableGenerator() {
     tableRowSIMConnect.setAttribute('style', 'border-width: 0px;');
 
     let cellSIMconnName = document.createElement('td');
-    cellSIMconnName.setAttribute('style', 'padding: 10px 5px;');
+    cellSIMconnName.setAttribute('style', 'padding: 10px 5px; border-style: solid; border-color: #777; border-width: 1px;');
     cellSIMconnName.textContent = 'SIM для подключения';
 
     let cellSIMconnData = document.createElement('td');
-    cellSIMconnData.setAttribute('style', 'padding: 10px;');
+    cellSIMconnData.setAttribute('style', 'padding: 10px; border-style: solid; border-color: #777; border-width: 1px;');
     cellSIMconnData.textContent = getCheckValue('mob_oper');
 
     tableRowSIMConnect.appendChild(cellSIMconnName);
@@ -647,11 +647,11 @@ function tableGenerator() {
     tableRowSPnum.setAttribute('style', 'border-width: 0px;');
 
     let cellSPnumName = document.createElement('td');
-    cellSPnumName.setAttribute('style', 'padding: 10px 5px;');
+    cellSPnumName.setAttribute('style', 'padding: 10px 5px; border-style: solid; border-color: #777; border-width: 1px;');
     cellSPnumName.textContent = 'Номер ТО';
 
     let cellSPnumData = document.createElement('td');
-    cellSPnumData.setAttribute('style', 'padding: 10px;');
+    cellSPnumData.setAttribute('style', 'padding: 10px; border-style: solid; border-color: #777; border-width: 1px;');
     cellSPnumData.textContent = getTextData('recvr_to_num');
 
     tableRowSPnum.appendChild(cellSPnumName);
@@ -661,11 +661,11 @@ function tableGenerator() {
     let tableRowAdditionInfo = document.createElement('tr');
     tableRowAdditionInfo.setAttribute('style', 'border-width: 0px;');
     let cellAddInfoName = document.createElement('td');
-    cellAddInfoName.setAttribute('style', 'padding: 10px 5px;');
+    cellAddInfoName.setAttribute('style', 'padding: 10px 5px; border-style: solid; border-color: #777; border-width: 1px;');
     cellAddInfoName.textContent = 'Примечание';
 
     let cellAddInfoData = document.createElement('td');
-    cellAddInfoData.setAttribute('style', 'padding: 10px;');
+    cellAddInfoData.setAttribute('style', 'padding: 10px; border-style: solid; border-color: #777; border-width: 1px;');
     cellAddInfoData.textContent = getTextData('addition_data');
 
     tableRowAdditionInfo.appendChild(cellAddInfoName);
