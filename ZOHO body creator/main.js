@@ -181,9 +181,9 @@ function checkCreator(target_name, objMapToCreation, namesOfObj, blockName, titl
     target.appendChild(chckBoxBlock);
 }
 // функция получения значения выбранного элемента radio
-function getRadioValue(name) {
+function getRadioValue(block_name) {
     try {
-        const tmp = document.querySelector(`input[name=${name}]:checked`).value;
+        const tmp = document.querySelector(`input[name=${block_name}]:checked`).value;
         return tmp;
     } catch {
         console.log(`Not critical error. Can't get checked "radio" element.`);
@@ -199,10 +199,10 @@ function getSelectValue(elemID) {
     }
 }
 // функция получения значения выбранного элемента select
-function getCheckValue(name) {
+function getCheckValue(elem_name) {
     try {
         // обращаемся элементу по имени
-        let checkboxes = document.getElementsByName(`${name}`);
+        let checkboxes = document.getElementsByName(`${elem_name}`);
         let checkboxesChecked = [];
         // проверяем все имеющиеся элементы с заданным именем
         for (var i=0; i<checkboxes.length; i++) {
@@ -284,10 +284,10 @@ function generate(){
     // tmp.innerHTML = value;
     // pass
     // alert(getRadioValue('task_type'));
-    titleGenerator();
-    tableGenerator();
     // alert(getRadioValue('term_model'));
     // alert(getCheckValue('mob_oper'));
+    titleGenerator();
+    tableGenerator();
 }
 // Основная функция отрисовки блока ввода данных 
 function inputBlockCreator() {
@@ -363,6 +363,7 @@ function rDataFormCreator(target_name) {
     name.type = 'text';
     name.id = 'recvr_name';
     name.placeholder = 'Сотрудник/Иванов Иван Иванович';
+    name.defaultValue = 'Сотрудник';
     name.required = true;
 
     const lName = document.createElement('label');
@@ -437,7 +438,7 @@ function titleGenerator() {
     
     let pTitle = document.createElement('p');
     pTitle.id = 'p_title';
-    pTitle.textContent = `${getRadioValue('task_type')} оборудования ТО ${getTextData('recvr_to_num')}`
+    pTitle.textContent = `\xA0${getRadioValue('task_type') ? getRadioValue('task_type') : '____' } оборудования ТО ${getTextData('recvr_to_num') ? getTextData('recvr_to_num') : '____'}`;
     // let titleText = `${getRadioValue('task_type')} оборудования ТО ${getTextData('recvr_to_num')}`;
     // понятия не имею как это работает, если честно, просто спёр из интернета функцию
     titleBody.onclick = function() {
@@ -452,12 +453,236 @@ function titleGenerator() {
     titleBody.appendChild(lTitle);
     titleBody.appendChild(pTitle);
 }
+// function tableCopyEvent () {
+//     let titleBody = document.getElementsByClassName('table')[0];
+    
+//     titleBody.onclick = function() {
+//         document.execCommand("copy");
+//       }
+//       titleBody.addEventListener("copy", function(event) {
+//         event.preventDefault();
+//         if (event.clipboardData) {
+//           event.clipboardData.setData("text/plain", titleBody.cloneNode.);
+//         }
+//       });
+// }
 // функция для создания таблицы для заявки
 function tableGenerator() {
-    let tableBody = document.getElementsByClassName('table')[0];
+    const tableBody = document.getElementsByClassName('table')[0];
     tableBody.innerHTML = '';
+
+    let realTableBody = document.createElement('table');
+    realTableBody.setAttribute('style', 'border-width: 0px; margin:0; padding:0');
+
+    realTableBody.setAttribute('border', '1px');
+    realTableBody.setAttribute('cellpadding', '0');
+    realTableBody.setAttribute('cellspacing', '0');
     
+    // обязательные стили для таблицы в письме
+    // <table border="0" cellpadding="0" cellspacing="0" style="margin:0; padding:0">
+
+    // строка перечня оборудования к отправке
     let tableRowMainInfo = document.createElement('tr');
+    tableRowMainInfo.setAttribute('style', 'border-width: 0px;');
+
+    let cellPackageName = document.createElement('td');
+    cellPackageName.textContent = 'Перечень оборудования';
+    cellPackageName.setAttribute('style', 'padding: 10px 5px;');
+    tableRowMainInfo.appendChild(cellPackageName);
+    // составляем список оборудования на замену
+    let complect = [];
+    if (getSelectValue('sb_0') != 'Не требуется') {
+        complect.push(getSelectValue('sb_0'));
+    }
+    if (getSelectValue('sb_3') != 'Не требуется') {
+        complect.push(getSelectValue('sb_3'));
+    }
+    if (getSelectValue('sb_4') != 'Не требуется') {
+        complect.push(getSelectValue('sb_4'));
+    }
+    // проверяем есть ли добавленные поля для кабеля
+    try {
+        if (getSelectValue('sb_4_1')) {
+            if (getSelectValue('sb_4_1') != 'Не требуется') {
+                complect.push(getSelectValue('sb_4_1'));
+            }   
+        }
+    } catch {
+        console.log(`Not critical error. Can't get checked "select" element with ID = 'sb_4_1'. It's not exist.`);
+    }
+    if (getSelectValue('sb_5') != 'Не требуется') {
+        complect.push(getSelectValue('sb_5'));
+    }
+    // проверяем доп. поля для сим
+    try {
+        if(getSelectValue('sb_5_1')){
+            if (getSelectValue('sb_5_1') != 'Не требуется') {
+                complect.push(getSelectValue('sb_5_1'));
+            }
+        }    
+    } catch {
+        console.log(`Not critical error. Can't get checked "select" element with ID = 'sb_4_1'. It's not exist.`);
+    }
+
+    let cellPackageList = document.createElement('td');
+    cellPackageList.setAttribute('style', 'padding: 20px;');
+    let list = document.createElement('ul');
+    
+    for (let i=0; i < complect.length; i++) {
+        let elLi = document.createElement('li');
+        elLi.textContent = `${complect[i]}`
+        list.appendChild(elLi);
+    }
+    cellPackageList.appendChild(list);
+    tableRowMainInfo.appendChild(cellPackageList);
+
+    // строка общей информации о получателе
+    let tableRoWRecieverName = document.createElement('tr');
+    tableRoWRecieverName.setAttribute('style', 'border-width: 0px;');
+
+    let cellRecName = document.createElement('td');
+    cellRecName.textContent = 'Получатель';
+    cellRecName.setAttribute('style', 'padding: 10px 5px;');
+
+    tableRoWRecieverName.appendChild(cellRecName);
+
+    let cellRecData = document.createElement('td');
+    cellRecData.setAttribute('style', 'padding: 20px;');
+    let rData = document.createElement('ul');
+    if (getTextData('recvr_company') != '') {
+        let rDataCompName = document.createElement('li');
+        rDataCompName.textContent = getTextData('recvr_company');
+        rData.appendChild(rDataCompName);
+    }
+    if (getTextData('recvr_phone') != '') {
+        let rDataPhone = document.createElement('li');
+        rDataPhone.textContent = `${getTextData('recvr_phone')}`;
+        rData.appendChild(rDataPhone);
+    }
+    if (getTextData('recvr_name') != 'Сотрудник'){
+        let rDataName = document.createElement('li');
+        rDataName.textContent = getTextData('recvr_name');
+        rData.appendChild(rDataName);
+    }
+    cellRecData.appendChild(rData)
+    tableRoWRecieverName.appendChild(cellRecName);
+    tableRoWRecieverName.appendChild(cellRecData);
+    // строка адреса получателя
+    let tableRoWRecieverAdr = document.createElement('tr');
+    tableRoWRecieverAdr.setAttribute('style', 'border-width: 0px;');
+
+    let cellRecAndName = document.createElement('td');
+    cellRecAndName.setAttribute('style', 'padding: 10px 5px;');
+    cellRecAndName.textContent = 'Адрес получателя'
+
+    let cellRecAdrData = document.createElement('td');
+    cellRecAdrData.setAttribute('style', 'padding: 10px;');
+    cellRecAdrData.textContent = getTextData('recvr_adr');
+
+    tableRoWRecieverAdr.appendChild(cellRecAndName);
+    tableRoWRecieverAdr.appendChild(cellRecAdrData);
+    // строка модели терминала
+    let tableRowModelInfo = document.createElement('tr');
+    tableRowModelInfo.setAttribute('style', 'border-width: 0px;');
+
+    let cellModelBlockName = document.createElement('td');
+    cellModelBlockName.setAttribute('style', 'padding: 10px 5px;');
+    cellModelBlockName.innerText = 'Модель терминала';
+
+    let cellRowModelInfo = document.createElement('td');
+    cellRowModelInfo.setAttribute('style', 'padding: 10px;');
+    if (getRadioValue('term_model')) {
+        cellRowModelInfo.innerText = getRadioValue('term_model');
+    }
+    
+    tableRowModelInfo.appendChild(cellModelBlockName);
+    tableRowModelInfo.appendChild(cellRowModelInfo);
+    // строка Unipos
+    let tableRowUnipos = document.createElement('tr');
+    tableRowUnipos.setAttribute('style', 'border-width: 0px;');
+
+    let cellUniposName = document.createElement('td');
+    cellUniposName.setAttribute('style', 'padding: 10px 5px;');
+    cellUniposName.textContent = 'Unipos';
+
+    let cellUniposData = document.createElement('td');
+    cellUniposData.setAttribute('style', 'padding: 10px;');
+    cellUniposData.textContent = getSelectValue('sb_2');
+
+    tableRowUnipos.appendChild(cellUniposName);
+    tableRowUnipos.appendChild(cellUniposData);
+
+    // строка Подключений
+    let tableRowConnection = document.createElement('tr');
+    tableRowConnection.setAttribute('style', 'border-width: 0px;');
+
+    let cellConnectName = document.createElement('td');
+    cellConnectName.setAttribute('style', 'padding: 10px 5px;');
+    cellConnectName.textContent = 'Подключение';
+
+    let cellConnectData = document.createElement('td');
+    cellConnectData.setAttribute('style', 'padding: 10px;');
+    cellConnectData.textContent = getSelectValue('sb_1');
+
+    tableRowConnection.appendChild(cellConnectName);
+    tableRowConnection.appendChild(cellConnectData);
+
+    // строка SIM для Подключений
+    let tableRowSIMConnect = document.createElement('tr');
+    tableRowSIMConnect.setAttribute('style', 'border-width: 0px;');
+
+    let cellSIMconnName = document.createElement('td');
+    cellSIMconnName.setAttribute('style', 'padding: 10px 5px;');
+    cellSIMconnName.textContent = 'SIM для подключения';
+
+    let cellSIMconnData = document.createElement('td');
+    cellSIMconnData.setAttribute('style', 'padding: 10px;');
+    cellSIMconnData.textContent = getCheckValue('mob_oper');
+
+    tableRowSIMConnect.appendChild(cellSIMconnName);
+    tableRowSIMConnect.appendChild(cellSIMconnData);
+
+    // строка номера ТО
+    let tableRowSPnum = document.createElement('tr');
+    tableRowSPnum.setAttribute('style', 'border-width: 0px;');
+
+    let cellSPnumName = document.createElement('td');
+    cellSPnumName.setAttribute('style', 'padding: 10px 5px;');
+    cellSPnumName.textContent = 'Номер ТО';
+
+    let cellSPnumData = document.createElement('td');
+    cellSPnumData.setAttribute('style', 'padding: 10px;');
+    cellSPnumData.textContent = getTextData('recvr_to_num');
+
+    tableRowSPnum.appendChild(cellSPnumName);
+    tableRowSPnum.appendChild(cellSPnumData);
+
+    // строка комментария
+    let tableRowAdditionInfo = document.createElement('tr');
+    tableRowAdditionInfo.setAttribute('style', 'border-width: 0px;');
+    let cellAddInfoName = document.createElement('td');
+    cellAddInfoName.setAttribute('style', 'padding: 10px 5px;');
+    cellAddInfoName.textContent = 'Примечание';
+
+    let cellAddInfoData = document.createElement('td');
+    cellAddInfoData.setAttribute('style', 'padding: 10px;');
+    cellAddInfoData.textContent = getTextData('addition_data');
+
+    tableRowAdditionInfo.appendChild(cellAddInfoName);
+    tableRowAdditionInfo.appendChild(cellAddInfoData);
+
+    realTableBody.appendChild(tableRowMainInfo);
+    realTableBody.appendChild(tableRoWRecieverName);
+    realTableBody.appendChild(tableRoWRecieverAdr);
+    realTableBody.appendChild(tableRowModelInfo);
+    realTableBody.appendChild(tableRowUnipos);
+    realTableBody.appendChild(tableRowConnection);
+    realTableBody.appendChild(tableRowSIMConnect);
+    realTableBody.appendChild(tableRowSPnum);
+    realTableBody.appendChild(tableRowAdditionInfo);
+    tableBody.appendChild(realTableBody);
+
+    // tableCopyEvent();
 }
 
 const termPacks = {
@@ -492,11 +717,11 @@ const cabels = {
 
  const cards = {
     'Не требуется': 'Отправка не требуется',
-    'SAM': 'Модуль хранения ключей шифрования ПО. Без него не будут осуществляться транзакции',
     'SIM Мегафон': 'SIM-карта для обеспечения связи',
     'SIM МТС': 'SIM-карта для обеспечения связи',
     'SIM Билайн': 'SIM-карта для обеспечения связи',
     'SIM Теле2': 'SIM-карта для обеспечения связи',
+    'SAM': 'Модуль хранения ключей шифрования ПО. Без него не будут осуществляться транзакции',
 }
 
 const typeConnections = {
