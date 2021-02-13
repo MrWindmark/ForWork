@@ -5,8 +5,8 @@
 
 .wrapper {
     display: flex;
-    flex-direction: row;
-    width: 100vw;
+    flex-direction: column;
+    width: 100%;
     min-height: 100vh;
     justify-content: center;
     background-color: #434445;
@@ -21,15 +21,15 @@
     align-items: center;
     max-width: 30vw;
     min-width: 25vw;
-    margin: 10px 0;
+    margin: 5px 0;
 }
 .result_block {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 40vw;
-    padding: 5px;
-    margin: 10px 0;
+    padding: 15px;
+    margin: 5px 0;
     background-color: #dfdfdf;
     border-radius: 10px;
     border: 1px solid black;
@@ -39,6 +39,7 @@
     min-width: 80vw;
     width: inherit;
     flex-grow: 1;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -66,16 +67,20 @@
 .buttons_block {
     display: flex;
     justify-content: space-evenly;
-    margin: 20px;
+    margin: 8px 0 5px 0;
 }
 .button {
     width: 40%;
-    height: 40px;
+    height: 25px;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 .small_button {
     margin: 2px 3px;
     width: 40px;
     height: 30px;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 .radio_group {
     display: flex;
@@ -83,12 +88,12 @@
 }
 .radio_group p{
     align-self: center;
-    padding-bottom: 5px;
+    padding-bottom: 2px;
 }
 .radio_item_block {
     display: flex;
     align-items: center;
-    padding: 5px;
+    padding: 3px;
 }
 .select_block, .radio_group {
     width: inherit;
@@ -99,6 +104,7 @@
 .select_option_block {
     width: 70%;
     margin-top: 5px;
+    height: 30px;
 }
 .check_blocks {
     display: flex;
@@ -127,12 +133,12 @@
     border: 1px solid white;
     border-radius: 5px;
     box-sizing: border-box;
-    min-height: 25px;
+    min-height: 40px;
     margin-bottom: 5px;
     min-width: 100%;
 }
 .table {
-    min-width: 100%;
+    width: 100%;
     height: inherit;
     min-height: 80%;
     border: 1px solid white;
@@ -179,7 +185,7 @@
     justify-content: center;
 }
 .footer {
-    width: inherit;
+    width: 100%;
     min-height: 50px;
     background-color: #323334;
     color: #6d6d6d;

@@ -299,7 +299,7 @@ function inputBlockCreator() {
     // выводим блоки select
     selectCreator('key_block', typeNamesForSelect);
     // здесь нужно вывести блок checkBox
-    checkCreator('key_block', mobileOperators, mobOperNames, 'mob_oper', 'SIM для подключений');
+    checkCreator('key_block', mobileOperators, mobOperNames, 'mob_oper', 'Используемые SIM для подключений');
 
     // Создаём клавиши генерации и сброса формы
     const bBlock = document.createElement('div');
@@ -363,7 +363,7 @@ function rDataFormCreator(target_name) {
     name.type = 'text';
     name.id = 'recvr_name';
     name.placeholder = 'Сотрудник/Иванов Иван Иванович';
-    name.defaultValue = 'Сотрудник';
+    // name.defaultValue = 'Сотрудник';
     name.required = true;
 
     const lName = document.createElement('label');
@@ -473,7 +473,7 @@ function tableGenerator() {
 
     let realTableBody = document.createElement('table');
     realTableBody.setAttribute('style', 'border-width: 0px; margin: 0; padding: 0; border-collapse: collapse;');
-
+    realTableBody.setAttribute('style', 'width: 400px');
     realTableBody.setAttribute('border', '1px');
     realTableBody.setAttribute('cellpadding', '0');
     realTableBody.setAttribute('cellspacing', '0');
@@ -530,6 +530,7 @@ function tableGenerator() {
     
     for (let i=0; i < complect.length; i++) {
         let elLi = document.createElement('li');
+        elLi.setAttribute('style', 'list-style-type: none;');
         elLi.textContent = `${complect[i]}`
         list.appendChild(elLi);
     }
@@ -551,17 +552,25 @@ function tableGenerator() {
     let rData = document.createElement('ul');
     if (getTextData('recvr_company') != '') {
         let rDataCompName = document.createElement('li');
+        rDataCompName.setAttribute('style', 'list-style-type: none;');
         rDataCompName.textContent = getTextData('recvr_company');
         rData.appendChild(rDataCompName);
     }
     if (getTextData('recvr_phone') != '') {
         let rDataPhone = document.createElement('li');
-        rDataPhone.textContent = `${getTextData('recvr_phone')}`;
+        rDataPhone.setAttribute('style', 'list-style-type: none;');
+        rDataPhone.textContent = `Тел.: ${getTextData('recvr_phone')}`;
         rData.appendChild(rDataPhone);
     }
-    if (getTextData('recvr_name') != 'Сотрудник'){
+    if (getTextData('recvr_name') != ''){
         let rDataName = document.createElement('li');
         rDataName.textContent = getTextData('recvr_name');
+        rDataName.setAttribute('style', 'list-style-type: none;');
+        rData.appendChild(rDataName);
+    } else if (getTextData('recvr_name') == '') {
+        let rDataName = document.createElement('li');
+        rDataName.setAttribute('style', 'list-style-type: none;');
+        rDataName.textContent = 'Сотрудник';
         rData.appendChild(rDataName);
     }
     cellRecData.appendChild(rData)
@@ -697,8 +706,10 @@ const itemsNetwork = {
     'Модемный комплект': 'Модем ComWL, Антенна, БП модема, Пин-кабель, набор SIM',
     'Роутерный комплект': 'Роутер, БП роутера, Антенна с переходником, Патч-корд, набор SIM',
     'Модем': 'ComWL + набор SIM',
+    'Модем + антенна': 'ComWL с набором SIM и антенной',
     'БП модема': '',
     'Роутер': 'Роутер + набор SIM',
+    'Роутер + антенна': 'Роутер с набором SIM и антенной с переходником',
     'БП роутера': 'Требуется указание в примечании о том для какого роутера (штекер)',
     'Антенна модема': 'Стандартная антенна с разъёмом подключения к ComWL',
     'Антенна роутера': 'Антенна + переходник для подключения к роутеру',
@@ -717,15 +728,16 @@ const cabels = {
 
  const cards = {
     'Не требуется': 'Отправка не требуется',
-    'SIM Мегафон': 'SIM-карта для обеспечения связи',
-    'SIM МТС': 'SIM-карта для обеспечения связи',
-    'SIM Билайн': 'SIM-карта для обеспечения связи',
-    'SIM Теле2': 'SIM-карта для обеспечения связи',
+    'SIM Мегафон': 'SIM-карта для обеспечения связи на территории РФ',
+    'SIM МТС': 'SIM-карта для обеспечения связи на территории РФ',
+    'SIM Билайн': 'SIM-карта для обеспечения связи на территории РФ',
+    'SIM Теле2': 'SIM-карта для обеспечения связи на территории РФ',
+    'SIM A1 (Velcom)': 'SIM-карта для обеспечения связи на территории Республики Беларусь',
     'SAM': 'Модуль хранения ключей шифрования ПО. Без него не будут осуществляться транзакции',
 }
 
 const typeConnections = {
-    'Не требуется': 'Отправка не требуется',
+    'Не требуется': 'Настройка подключения у терминала не требуется',
     'ETH': 'Проводное подключение через роутер',
     'ETH + внеш.Модем (ComWL)': 'Проводное подключение через роутер с резервным подключением по внешнему ComWL',
     'ETH + внутр.GPRS': 'Проводное подключение через роутер с резервинованием подключения по встроенному модему терминала. Примеримо для моделей с внутренним модемом',
@@ -762,8 +774,9 @@ const termModels = {
 }
 // типы заявок (для темы)
 const taskType = {
-    10: 'Замена',
-    11: 'Возврат',
+    10: 'Замена (без возврата)',
+    11: 'Замена (с возвратом)',
+    12: 'Возврат',
 }
 // перечень элементов, выводимых как элементы select
 const itemsSelectBlock = {
