@@ -1,11 +1,3 @@
-// блок ввода состоит из:
-    // 0) базовый radio Возврат/Отправка с дефолтным Отправка
-    // 1) блока checkbox с описанием каждого пункта (терм.комплект, мод.комп. и т.д.)
-    // 2) блока ввода информации о получателе (Название компании, ФИО, телефон, адрес)
-    // 3) блока ввода информации о ТО (подключения, Unipos, номер ТО
-        // а) блок подключений состоит из блок radio с выбором подключений
-        // б) блока checkbox для выбора сим-карт
-
 function radioCreator(target_name, typeNames){
     const target = document.getElementsByClassName(target_name)[0];
 
@@ -473,7 +465,7 @@ function tableGenerator() {
 
     let realTableBody = document.createElement('table');
     realTableBody.setAttribute('style', 'border-width: 0px; margin: 0; padding: 0; border-collapse: collapse;');
-    realTableBody.setAttribute('style', 'width: 400px');
+    realTableBody.setAttribute('style', 'width: 500px');
     realTableBody.setAttribute('border', '1px');
     realTableBody.setAttribute('cellpadding', '0');
     realTableBody.setAttribute('cellspacing', '0');
