@@ -465,7 +465,7 @@ function tableGenerator() {
 
     let realTableBody = document.createElement('table');
     realTableBody.setAttribute('style', 'border-width: 0px; margin: 0; padding: 0; border-collapse: collapse;');
-    realTableBody.setAttribute('style', 'width: 500px');
+    realTableBody.setAttribute('style', 'width: 400px');
     realTableBody.setAttribute('border', '1px');
     realTableBody.setAttribute('cellpadding', '0');
     realTableBody.setAttribute('cellspacing', '0');
