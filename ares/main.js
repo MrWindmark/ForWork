@@ -75,6 +75,7 @@ function selectCreator (target_name, typeNames) {
         // для улучшения читабельности страницы создаём имена для блоков
         let addBFlag = false;
         let selectBlockName = document.createElement('div');
+        selectBlockName.classList.add('select_block_name');
         
         if (typeNames[selectBlockStep] == 'term_pack') {
             selectBlockName.innerHTML = 'Комплектация терминала';
@@ -558,7 +559,7 @@ function tableGenerator() {
         let rDataPhone = document.createElement('li');
         rDataPhone.setAttribute('style', 'list-style-type: none;');
         const regex = /(\d?)\s(\d)/g;
-        const phoneNumber = getTextData('recvr_phone').replaceAll(regex, '$1-$2');
+        const phoneNumber = getTextData('recvr_phone').replaceAll(regex, '$1$2');
         rDataPhone.textContent = `Тел.: ${phoneNumber}`;
         rData.appendChild(rDataPhone);
     }
@@ -618,9 +619,13 @@ function tableGenerator() {
 
     let cellRowScannerInfo = document.createElement('td');
     cellRowScannerInfo.setAttribute('style', 'padding: 10px; border-style: solid; border-color: #777; border-width: 1px;');
+    
     if (getRadioValue('scanner')) {
         cellRowScannerInfo.innerText = getRadioValue('scanner');
+    } else {
+        cellRowScannerInfo.innerText = 'Нет данных';
     }
+    
     
     tableRowScannerInfo.appendChild(cellScannerBlockName);
     tableRowScannerInfo.appendChild(cellRowScannerInfo);

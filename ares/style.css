@@ -92,19 +92,26 @@
 .radio_group_name{
     align-self: center;
     padding-bottom: 1px;
-    
+    text-decoration-line: underline;
+    font-style: italic;
 }
 .groups_body {
     display:flex;   
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
-    max-height: 40px;
+    max-height: 70px;
 }
 .radio_item_block {
     display: flex;
     align-items: center;
     padding: 1px 0;
-    width: 40%;
+    width: 43%;
+    font-size: 0.95em;
+}
+.select_block_name {
+    text-decoration-line: underline;
+    font-style: italic;
+    padding-bottom: 2px;
 }
 .select_block, .radio_group {
     width: inherit;
@@ -246,7 +253,7 @@
     }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1199px) {
     .gen_data {
         width: 100vw;
         flex-direction: column;
