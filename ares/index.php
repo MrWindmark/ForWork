@@ -34,9 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="footer">
         <?php include ("footer.php"); ?>
-        </div>
     </div>
     <!-- исходный код скрипта написан под лицензией GNU General Public License v2.0 -->
     <!-- для получения исходного кода обратитесь к MrWindmark на GitHub через e-mail -->
